@@ -8,23 +8,22 @@ import File.*;
 public class BiodataManagerPage extends JFrame implements ActionListener {
     Font font15 = new Font("Consolas", Font.BOLD, 15);
 
-    // ── Category section labels & fields ──────────────────────────────────
+    // ── Category section labels & fields 
     JLabel catLabel, catNoLabel, catNameLabel;
     JTextField catNoTextField, catNameTextField;
     JButton addCatButton, removeCatButton, clearCatButton;
 
-    // ── Profile section labels & fields ───────────────────────────────────
+    // ── Profile section labels & fields 
     JLabel profileLabel;
     JLabel nameLabel, phoneLabel, genderLabel, ageLabel, professionLabel, cityLabel;
     JTextField nameTextField, phoneTextField, genderTextField, ageTextField, professionTextField, cityTextField;
     JButton createProfileButton, updateProfileButton, removeProfileButton, clearProfileButton;
 
-    // ── Save ──────────────────────────────────────────────────────────────
-    JButton saveChangesButton;
+    // ── Save
     JTextArea screen;
     Category[] categories = new Category[100];
 
-    // ═════════════════════════════════════════════════════════════════════
+  
     public BiodataManagerPage() {
         super("Marriage Biodata Manager");
         this.setSize(850, 720);
@@ -36,20 +35,18 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
 
         FileIO.loadFromFile(categories);
 
-        // ── Title ────────────────────────────────────────────────────────
+        // ── Title
         createLabel(200, 0, 450, 40, "       Marriage BioData Registry");
 
-        // ── Left: scrollable display ─────────────────────────────────────
+        // ── Left display
         screen = new JTextArea();
         screen.setFont(font15);
         screen.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(screen);
         scrollPane.setBounds(10, 40, 490, 620);
         this.add(scrollPane);
-
-        // ─────────────────────────────────────────────────────────────────
+        
         // CATEGORY SECTION
-        // ─────────────────────────────────────────────────────────────────
         catLabel = createLabel(550, 40, 220, 28, "── General Information ──");
 
         catNoLabel   = createLabel(520,  75, 145, 28, "Serial No.");
@@ -70,12 +67,11 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         clearCatButton.setBackground(Color.DARK_GRAY);
         clearCatButton.setForeground(Color.WHITE);
 
-        // ─────────────────────────────────────────────────────────────────
         // PROFILE SECTION
-        // ─────────────────────────────────────────────────────────────────
+       
         profileLabel = createLabel(550, 218, 300, 28, "──── Manage Profile ────");
 
-        // Profile fields (serial order: name, phone, gender, age, profession, city)
+        // Profile fields 
         nameLabel       = createLabel(520, 252, 145, 28, "Full Name");
         nameTextField     = createTextField(670, 252, 150, 28, "");
 
@@ -111,12 +107,12 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         clearProfileButton.setBackground(Color.DARK_GRAY);
         clearProfileButton.setForeground(Color.WHITE);
 
-        // ── Save all changes ─────────────────────────────────────────────
+        // ── Save all changes
         saveChangesButton = createButton(520, 562, 300, 32, "💾  Save All Changes");
         saveChangesButton.setBackground(new Color(30, 30, 200));
         saveChangesButton.setForeground(Color.WHITE);
 
-        // ── Background image (added last so it doesn't cover controls) ───
+        // ── Background image 
         JLabel background = new JLabel(new ImageIcon("./images/bdnew.jpg"));
         background.setBounds(0, 0, 850, 720);
         this.add(background);
@@ -124,8 +120,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         updateScreen();
         this.setVisible(true);
     }
-
-    // ── Helper builders ───────────────────────────────────────────────────
+    // ── Helper builders
     JLabel createLabel(int x, int y, int w, int h, String text) {
         JLabel c = new JLabel(text);
         c.setBounds(x, y, w, h);
@@ -134,7 +129,6 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         this.add(c);
         return c;
     }
-
     JTextField createTextField(int x, int y, int w, int h, String text) {
         JTextField c = new JTextField(text);
         c.setBounds(x, y, w, h);
@@ -154,7 +148,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         return c;
     }
 
-    // ── Refresh display ───────────────────────────────────────────────────
+    // ── Refresh display 
     public void updateScreen() {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < categories.length; i++) {
@@ -164,12 +158,11 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         }
         screen.setText(sb.toString());
     }
-
-    // ── Event handling ────────────────────────────────────────────────────
+    // ── Event handling 
     @Override
     public void actionPerformed(ActionEvent e) {
         try {
-            // ── Add category ──────────────────────────────────────────────
+            // ── Add category
             if (e.getSource() == addCatButton) {
                 String cNo   = catNoTextField.getText().trim();
                 String cName = catNameTextField.getText().trim();
@@ -185,8 +178,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Enter Serial No. and Category Name!");
                 }
             }
-
-            // ── Remove category ───────────────────────────────────────────
+            // ── Remove category 
             else if (e.getSource() == removeCatButton) {
                 String cNo = catNoTextField.getText().trim();
                 if (!cNo.isEmpty()) {
@@ -202,14 +194,13 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                     }
                 }
             }
-
-            // ── Clear category fields ─────────────────────────────────────
+            // ── Clear category fields
             else if (e.getSource() == clearCatButton) {
                 catNoTextField.setText("");
                 catNameTextField.setText("");
             }
 
-            // ── Create profile ────────────────────────────────────────────
+            // ── Create profile 
             else if (e.getSource() == createProfileButton) {
                 String cNo  = catNoTextField.getText().trim();
                 String name = nameTextField.getText().trim();
@@ -237,8 +228,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Serial No., Full Name, and Age are required!");
                 }
             }
-
-            // ── Update (existing) profile — matched by Full Name ──────────
+            // ── Update profile
             else if (e.getSource() == updateProfileButton) {
                 String cNo  = catNoTextField.getText().trim();
                 String name = nameTextField.getText().trim();
@@ -260,8 +250,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Enter Serial No. and the Full Name of the profile to update!");
                 }
             }
-
-            // ── Remove profile — matched by Full Name ─────────────────────
+            // ── Remove profile
             else if (e.getSource() == removeProfileButton) {
                 String cNo  = catNoTextField.getText().trim();
                 String name = nameTextField.getText().trim();
@@ -281,8 +270,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Enter Serial No. and the Full Name of the profile to remove!");
                 }
             }
-
-            // ── Clear profile fields ──────────────────────────────────────
+            // ── Clear profile fields
             else if (e.getSource() == clearProfileButton) {
                 nameTextField.setText("");
                 phoneTextField.setText("");
@@ -291,8 +279,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
                 professionTextField.setText("");
                 cityTextField.setText("");
             }
-
-            // ── Save all data ─────────────────────────────────────────────
+            // ── Save all data
             else if (e.getSource() == saveChangesButton) {
                 if (JOptionPane.showConfirmDialog(this, "Save all changes to file?") == JOptionPane.YES_OPTION) {
                     FileIO.saveChangesInFile(categories);
@@ -307,8 +294,7 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         }
     }
 
-    // ── Helpers ───────────────────────────────────────────────────────────
-    /** Returns first empty slot index in a category's profile array, or -1 if full. */
+    // ── Helpers  
     private int findNextSlot(int catIdx) {
         Profile[] profiles = categories[catIdx].getAllProfiles();
         for (int i = 0; i < profiles.length; i++) {
@@ -317,7 +303,6 @@ public class BiodataManagerPage extends JFrame implements ActionListener {
         return -1;
     }
 
-    /** Returns the index of the first profile whose name matches (case-insensitive), or -1. */
     private int findProfileByName(int catIdx, String name) {
         if (categories[catIdx] == null) return -1;
         Profile[] profiles = categories[catIdx].getAllProfiles();
